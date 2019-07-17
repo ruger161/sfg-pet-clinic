@@ -5,24 +5,21 @@ import de.cegeka.sfgpetclinic.model.Owner;
 import de.cegeka.sfgpetclinic.model.Vet;
 import de.cegeka.sfgpetclinic.services.OwnerService;
 import de.cegeka.sfgpetclinic.services.VetService;
-import de.cegeka.sfgpetclinic.services.map.OwnerServiceMap;
-import de.cegeka.sfgpetclinic.services.map.VetServiceMap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    private OwnerService ownerService;
-    private VetService vetService;
+    private final OwnerService ownerService;
+    private final VetService vetService;
+
+    public DataLoader(OwnerService ownerService, VetService vetService) {
+        this.ownerService = ownerService;
+        this.vetService = vetService;
+    }
 //    private PetService petService;
 
-
-    public DataLoader() {
-        ownerService = new OwnerServiceMap();
-        vetService = new VetServiceMap();
-//        petService = new PetServiceMap();
-    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -35,9 +32,9 @@ public class DataLoader implements CommandLineRunner {
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
-        owner1.setId(2L);
-        owner1.setFirstName("Dummy");
-        owner1.setLastName("McDummy");
+        owner2.setId(2L);
+        owner2.setFirstName("Dummy");
+        owner2.setLastName("McDummy");
 
         ownerService.save(owner2);
 

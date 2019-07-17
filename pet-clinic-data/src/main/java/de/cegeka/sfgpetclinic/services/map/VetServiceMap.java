@@ -2,9 +2,11 @@ package de.cegeka.sfgpetclinic.services.map;
 
 import de.cegeka.sfgpetclinic.model.Vet;
 import de.cegeka.sfgpetclinic.services.VetService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
 
     @Override
