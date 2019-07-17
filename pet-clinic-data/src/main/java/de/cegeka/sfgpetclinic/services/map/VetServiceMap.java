@@ -1,11 +1,11 @@
 package de.cegeka.sfgpetclinic.services.map;
 
 import de.cegeka.sfgpetclinic.model.Vet;
-import de.cegeka.sfgpetclinic.services.CrudService;
+import de.cegeka.sfgpetclinic.services.VetService;
 
 import java.util.Set;
 
-public class VetServiceMap extends AbstractMapService<Vet, Long> implements CrudService<Vet, Long> {
+public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
 
     @Override
     public Set<Vet> findAll() {
