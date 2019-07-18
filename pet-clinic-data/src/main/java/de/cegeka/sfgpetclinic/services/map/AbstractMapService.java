@@ -1,13 +1,12 @@
 package de.cegeka.sfgpetclinic.services.map;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import de.cegeka.sfgpetclinic.model.BaseEntity;
 
-public abstract class AbstractMapService<T, ID> {
+import java.util.*;
 
-    protected Map<ID, T> map = new HashMap<>();
+public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> {
+
+    protected Map<Long, T> map = new HashMap<>();
 
     Set<T> findAll() {
         return new HashSet<>(map.values());
@@ -17,8 +16,32 @@ public abstract class AbstractMapService<T, ID> {
         return map.get(id);
     }
 
-    T save(ID id, T object) {
-        map.put(id, object);
+    //    T save(ID id, T object) {
+    //            // guarding clause
+    //            if (object == null) {
+    //                throw new RuntimeException("Object cannot be null");
+    //            }
+    //
+    //            // update id
+    //            if (object.getId() == null) {
+    //                object.setId(getNextId());
+    //            }
+    //            map.put(object.getId(), object);
+    //
+    //            return object;
+    //        }
+
+    T save(T object) {
+
+        if (object != null) {
+            if (object.getId() == null) {
+                object.setId(getNextId());
+            }
+            map.put(object.getId(), object);
+        } else {
+            throw new RuntimeException("Object cant be null");
+        }
+
         return object;
     }
 
@@ -28,5 +51,29 @@ public abstract class AbstractMapService<T, ID> {
 
     void delete(T object) {
         map.entrySet().removeIf(entry -> entry.getValue().equals(object));
+    }
+
+
+    //        private Long getNextId() {
+    //            return map.keySet().stream().anyMatch(Objects::nonNull) ? Collections.max(map.keySet()) + 1L : 1L;
+    //        }
+
+
+    //    private Long getNextId() {
+    //        if (map.keySet().isEmpty()) return 1L;
+    //
+    //        return  Collections.max(map.keySet()) + 1;
+    //    }
+    private Long getNextId() {
+
+        Long nextId = null;
+
+        try {
+            nextId = Collections.max(map.keySet()) + 1;
+        } catch (NoSuchElementException e) {
+            nextId = 1L;
+        }
+
+        return nextId;
     }
 }
